@@ -36,7 +36,7 @@ WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?q={}&units=metric
 #     if parsed.get("weather"):
 #         weather = {"description":parsed["weather"][0]["description"], "temperature":parsed["main"]["temp"], "city":parsed["name"]}
 
-DEFAULTS = {'publication': 'bbc', 'city': 'Lagos,NG'}
+DEFAULTS = {'publication': 'bbc', 'city': 'London,UK'}
 
 
 @app.route("/")
@@ -74,6 +74,7 @@ def get_weather(query):
             weather = {'description': data['weather'][0]['description'], 'temperature': data['main']['temp'], 'city': data['name']}
             return weather
     return None 
+
 
 if __name__ == "__main__":
     app.run(debug=True)
