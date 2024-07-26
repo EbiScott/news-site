@@ -16,10 +16,6 @@
             }
             
             #header {
-                background: lightsteelblue;
-            }
-
-            #header {
                 padding-top: 5;
                 background: lightsteelblue;
             }
@@ -47,7 +43,7 @@
                 border: none;
                 box-shadow: 1px 1px 1px #4C6E91;
             }
-            
+
             input[type="submit"]:hover{
                 background: steelblue;
             }
@@ -63,7 +59,7 @@
                 
         <div id="main">
             <h2>Current weather</h2>
-            <form>
+            <form method="GET">
                 <input type="text" name="city" placeholder="weather search">
                 <input type="submit" value="Submit">
             </form>
@@ -72,15 +68,15 @@
             
             
             <h2>Currency</h2>
-            <form>
+            <form method="GET">
                 from: <select name="currency_from">
                     {% for currency in currencies %}
-                    <option value="{{currency}}" {{selected="selected" if currency_from==currency}}>{{currency}}</option>
+                    <option value="{{currency}}" {{'selected="selected"' if currency_from==currency}}>{{currency}}</option>
                     {% endfor %}
                 </select>
                 to: <select name="currency_to">
                     {% for currency in currencies %}
-                    <option value="{{currency}}" {{selected="selected" if currency_to==currency}}>{{currency}}</option>
+                    <option value="{{currency}}" {{'selected="selected"' if currency_to==currency}}>{{currency}}</option>
                     {% endfor %}
                 </select>
                 <input type="submit" value="Submit">
@@ -89,7 +85,7 @@
             
             
             <h2>Headlines</h2>
-            <form>
+            <form method="GET">
                 <input type="text" name="publication" placeholder="search" />
                 <input type="submit" value="Submit" />
             </form>
@@ -103,3 +99,4 @@
         </div>
     </body>
 </html>
+

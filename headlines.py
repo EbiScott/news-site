@@ -54,7 +54,6 @@ def home():
     response = make_response(render_template("home.html", articles=articles, weather=weather, currency_from=currency_from, currency_to=currency_to, rate=rate, currencies=sorted(currencies)))
 
     expires = datetime.datetime.now() + datetime.timedelta(days=365)
-
     response.set_cookie("publication", publication, expires=expires)
     response.set_cookie("city", city, expires=expires)
     response.set_cookie("currency_from", currency_from, expires=expires)
@@ -63,13 +62,12 @@ def home():
     return response
 
 
-def get_news(publication):
-    
+def get_news(publication):  
     feed = feedparser.parse(RSS_FEEDS[publication])
     return feed['entries']
 
 def get_weather(query):
-    API_KEY = "OPENWEATHER_API"
+    API_KEY = os.getenv("OPENWEATHER_API")
     query = urllib.parse.quote(query)
     url = WEATHER_URL.format(query, API_KEY)
     http = urllib3.PoolManager()
@@ -78,18 +76,35 @@ def get_weather(query):
     if response.status == 200:
         data = json.loads(response.data)
         if data.get('weather'):
-            weather = {'description': data['weather'][0]['description'], 'temperature': data['main']['temp'], 'city': data['name'], 'country': data['sys']['country']}
+            weather = {
+                'description': data['weather'][0]['description'], 
+                'temperature': data['main']['temp'], 
+                'city': data['name'], 
+                'country': data['sys']['country']
+            }
             return weather
     return None 
 
 def get_rate(frm, to):
-    all_currency = urllib2.urlopen(CURRENCY_URL).read() #need to fix this urllib2 to urllib3 issue here
+    # http = urllib3.PoolManager()
+    # response = http.request('GET', CURRENCY_URL)
+    # all_currency = response.data.decode('utf-8')
 
-    parsed = json.loads(all_currency).get('rates')
-    frm_rate = parsed.get(frm.upper())
-    to_rate = parsed.get(to.upper())
-    return (to_rate / frm_rate, parsed.keys())
-
+    # parsed = json.loads(all_currency).get('rates')
+    # frm_rate = parsed.get(frm.upper())
+    # to_rate = parsed.get(to.upper())
+    # return (to_rate / frm_rate, parsed.keys())
+    API_KEY = os.getenv("OPENEXCHANGE_API")
+    url = CURRENCY_URL.format(API_KEY)
+    http = urllib3.PoolManager()
+    response = http.request('GET', url)
+    if response.status == 200:
+        all_currency = response.data.decode('utf-8')
+        parsed = json.loads(all_currency).get('rates')
+        frm_rate = parsed.get(frm.upper())
+        to_rate = parsed.get(to.upper())
+        return (to_rate / frm_rate, parsed.keys())
+    return (None, [])
 
 
 if __name__ == "__main__":
