@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, make_response
 import json
 import os
 import random
-import urllib
+import urllib.parse
 import urllib3
 
 
@@ -87,14 +87,6 @@ def get_weather(query):
     return None 
 
 def get_rate(frm, to):
-    # http = urllib3.PoolManager()
-    # response = http.request('GET', CURRENCY_URL)
-    # all_currency = response.data.decode('utf-8')
-
-    # parsed = json.loads(all_currency).get('rates')
-    # frm_rate = parsed.get(frm.upper())
-    # to_rate = parsed.get(to.upper())
-    # return (to_rate / frm_rate, parsed.keys())
     API_KEY = os.getenv("OPENEXCHANGE_API")
     url = CURRENCY_URL.format(API_KEY)
     http = urllib3.PoolManager()
