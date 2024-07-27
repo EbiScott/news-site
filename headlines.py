@@ -34,7 +34,6 @@ DEFAULTS = {'publication': 'bbc', 'city': 'London,UK', 'currency_from':'GBP', 'c
 def get_value_with_fallback(key):
     if request.args.get(key):
         return request.args.get(key)
-
     if request.cookies.get(key):
         return request.cookies.get(key)
 
