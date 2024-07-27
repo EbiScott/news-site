@@ -69,12 +69,14 @@
             
             <h2>Currency</h2>
             <form method="GET">
-                from: <select name="currency_from">
+                <label for="currency_from">From: </label>
+                <select name="currency_from">
                     {% for currency in currencies %}
                     <option value="{{currency}}" {{'selected="selected"' if currency_from==currency}}>{{currency}}</option>
                     {% endfor %}
                 </select>
-                to: <select name="currency_to">
+                <label for="currency_to">To:</label>
+                <select name="currency_to">
                     {% for currency in currencies %}
                     <option value="{{currency}}" {{'selected="selected"' if currency_to==currency}}>{{currency}}</option>
                     {% endfor %}
